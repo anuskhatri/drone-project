@@ -1,6 +1,6 @@
-from ultralytics import YOLO
+import yolo as YOLO
 import cv2
-import cvzone
+# import cvzone
 import math
 
 
@@ -33,15 +33,11 @@ while True:
         for box in boxes:
             x1, y1, x2, y2 = box.xyxy[0]
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
-
-            w, h = x2-x1, y2-y1
-            cvzone.cornerRect(img, (x1, y1, w, h))
-
+            print(x1, y1, x2, y2)
             conf = math.ceil((box.conf[0]*100))/100
-
+            print(conf)
             cls = int(box.cls[0])
-            cvzone.putTextRect(img, f'{conf} {classes[cls]}', (max(0, x1), max(35, y1)))
-
+            print(cls)
 
     cv2.imshow("Image", img)
     cv2.waitKey(1)
