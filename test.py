@@ -1,33 +1,26 @@
-from dronekit import connect, VehicleMode
-
-# Define the serial port and baud rate for MAVLink communication
-serial_port = '/dev/serial0'  # Replace with the correct serial port for your Pixhawk connection
-baud_rate = 57600  # Adjust this to match your Pixhawk's baud rate
-
-# Connect to the Vehicle
-print('Connecting to vehicle on: %s' % serial_port)
-vehicle = connect(serial_port, baud=baud_rate, wait_ready=True)
+from dronekit import connect
 
 try:
-    print("Forcing arming...")
-    
-    # Set the force_arm parameter to True
-    vehicle.parameters['ARMING_CHECK'] = 0
-    vehicle.parameters['ARMING_REQUIRE'] = 0
-    vehicle.parameters['FORCE_ARM'] = 1
-    
-    # Copter should arm in GUIDED mode
-    vehicle.mode = VehicleMode("GUIDED")
-    vehicle.armed = True
+    # Connect to the Pixhawk using the USB serial connection
+    vehicle = connect('/dev/serial0', baud=921600)
 
-    while not vehicle.armed:
-        print("Waiting for arming...")
-        time.sleep(1)
+    # Print some vehicle information
+    print(f"Vehicle ID: {vehicle.parameters['SYSID_THISMAV']}")
+    print(f"GPS Fix: {vehicle.gps_0.fix_type}")
 
-    print("Vehicle is armed.")
-
-    # You can add your specific actions here
-
-finally:
-    # Close the vehicle object
+    # Close the connection
     vehicle.close()
+except Exception as e:
+    print(e)
+
+
+
+# Command to run file:-
+# python3 test.py --master=/dev/serial0 --baudrate 921600 --aircra
+# Output:-
+# ft MyCopter
+# CRITICAL:autopilot:PreArm: RC not found
+# CRITICAL:autopilot:PreArm: Hardware safety switch
+# CRITICAL:autopilot:PreArm: Compass not calibrated
+# Vehicle ID: 1.0
+# GPS Fix: 0
