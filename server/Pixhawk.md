@@ -32,3 +32,6 @@
 - DO commands (MAV_CMD_DO_*) are for auxiliary functions that do not affect the vehicle’s position (for example, setting the camera trigger distance, or setting a servo value).
 - CONDITION commands (MAV_CMD_NAV_*) are used to delay DO commands until some condition is met. 
 - For example MAV_CMD_CONDITION_DISTANCE will prevent DO commands executing until the vehicle reaches the specified distance from the waypoint.
+
+
+#### 
